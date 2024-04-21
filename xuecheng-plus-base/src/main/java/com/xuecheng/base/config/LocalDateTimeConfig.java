@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
-* @description TODO
+* @description 日期时间格式配置类
 * @author TMC
 * @date 2023/2/5 22:06
 * @version 1.0
@@ -38,7 +38,7 @@ public class LocalDateTimeConfig {
     }
 
 
-    // 配置
+    // 配置映射器
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
         return builder -> {

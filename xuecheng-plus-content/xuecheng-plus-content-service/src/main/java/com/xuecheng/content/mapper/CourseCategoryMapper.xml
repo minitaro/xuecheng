@@ -19,13 +19,12 @@
     </sql>
 
     <select id="selectTreeNodes" resultType="com.xuecheng.content.model.dto.CourseCategoryTreeDto" parameterType="string">
-        with recursive t1 as (
-            select p.* from course_category p where p.id=#{id}
-            union all
-            select p1.* from course_category p1 inner join t1 on t1.id = p1.parentid
+        WITH RECURSIVE t1 AS (
+            SELECT p.* FROM course_category p WHERE p.id = #{id}
+            UNION ALL
+            SELECT p1.* FROM course_category p1 INNER JOIN t1 ON t1.id = p1.parentid
         )
-        select * from t1 order by t1.id
-
+        SELECT * FROM t1 ORDER BY t1.orderby
     </select>
 
 </mapper>

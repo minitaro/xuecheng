@@ -3,54 +3,50 @@ package com.xuecheng.content.service.impl;
 import com.xuecheng.content.mapper.CourseCategoryMapper;
 import com.xuecheng.content.model.dto.CourseCategoryTreeDto;
 import com.xuecheng.content.service.CourseCategoryService;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
-* @description 课程分类树形结构查询业务接口实现类
+* @description 课程分类服务实现类
 * @author TMC
 * @date 2023/2/6 18:59
 * @version 1.0
 */
-@Slf4j
 @Service
 public class CourseCategoryServiceImpl implements CourseCategoryService {
 
-    @Autowired
+    @Resource
     CourseCategoryMapper courseCategoryMapper;
+
     @Override
     public List<CourseCategoryTreeDto> queryTreeNodes(String id) {
 
-        //1.查询得到根结点下所有层级的子结点
-        List<CourseCategoryTreeDto> categoryTreeDtos = courseCategoryMapper.selectTreeNodes(id);
-        //2.封装结果集
-        //2.1.定义List作为最终返回的数据
-        List<CourseCategoryTreeDto> courseCategoryTreeDtos = new ArrayList<>();
-        //2.2.为了方便找子结点的父结点，定义map
-        HashMap<String, CourseCategoryTreeDto> nodeMap = new HashMap<>();
-        //2.3.将数据封装到List
-        categoryTreeDtos.stream().forEach(item->{
-            nodeMap.put(item.getId(), item);
-            //2.3.1.只将根节点的下级节点放入list
-            if (item.getParentid().equals(id)) {
-                courseCategoryTreeDtos.add(item);
+        //1.查询得到根节点下所有节点的列表
+        List<CourseCategoryTreeDto> courseCategoryDtos = courseCategoryMapper.selectTreeNodes(id);
+
+        //2.节点列表封装成树形结果集
+        List<CourseCategoryTreeDto> resultTreeDtos = new ArrayList<>(); //2.1.定义树形结果集
+        Map<String, CourseCategoryTreeDto> nodeMap = new HashMap<>(); //2.2.定义map临时存储节点
+        courseCategoryDtos.forEach(item -> {
+            nodeMap.put(item.getId(), item); //2.3.节点储存在临时map中,方便后续获取其父节点
+            if (id.equals(item.getParentid())) {
+                resultTreeDtos.add(item); //2.4.将根节点的直接子节点放入树形结果集
             }
-            //2.3.2.节点的下级节点集属性赋值
-            CourseCategoryTreeDto parentNode = nodeMap.get(item.getParentid());
+            CourseCategoryTreeDto parentNode = nodeMap.get(item.getParentid()); //2.5.获取节点的父节点
             if (parentNode != null) {
                 if (parentNode.getChildrenTreeNodes() == null) {
-                    parentNode.setChildrenTreeNodes(new ArrayList<CourseCategoryTreeDto>());
+                    parentNode.setChildrenTreeNodes(new ArrayList<>());
                 }
-                parentNode.getChildrenTreeNodes().add(item);
+                parentNode.getChildrenTreeNodes().add(item); //2.6.将节点存入其父节点的子节点列表
             }
         });
 
-        //3.返回的list只包括了根结点的直接下属结点
-        return courseCategoryTreeDtos;
+        //3.返回树形结果集
+        return resultTreeDtos;
     }
 }

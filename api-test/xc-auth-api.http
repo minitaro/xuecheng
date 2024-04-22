@@ -1,0 +1,62 @@
+### 申请令牌(授权码模式)
+POST {{auth_host}}/auth/oauth/token?client_id=XcWebApp&client_secret=XcWebApp&grant_type=authorization_code&
+    code=dGLzUv&redirect_uri=http://www.51xuecheng.cn
+
+
+
+### 申请令牌(密码模式,硬编码实现UserDetailsService,用户信息在内存中)
+POST {{auth_host}}/auth/oauth/token?client_id=XcWebApp&client_secret=XcWebApp&grant_type=password&username=zhangsan&password=123
+
+
+
+### 申请令牌(密码模式,查询ucenter数据库实现UserDetailsService)
+POST {{auth_host}}/auth/oauth/token?client_id=XcWebApp&client_secret=XcWebApp&grant_type=password&username=stu1
+    &password=111111
+
+
+
+###校验JWT令牌
+POST {{auth_host}}/auth/oauth/check_token?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsieHVlY2hlbmctcGx1cyJdLCJ1c2VyX25hbWUiOiJ7XCJiaXJ0aGRheVwiOlwiMjAyMi0wOS0yOFQxOToyODo0NlwiLFwiY3JlYXRlVGltZVwiOlwiMjAyMi0wOS0yOFQwODozMjowM1wiLFwiaWRcIjpcIjUwXCIsXCJuYW1lXCI6XCLlrabnlJ8xXCIsXCJuaWNrbmFtZVwiOlwi5aSn5rC054mbXCIsXCJzZXhcIjpcIjFcIixcInN0YXR1c1wiOlwiMVwiLFwidXNlcm5hbWVcIjpcInN0dTFcIixcInVzZXJwaWNcIjpcImh0dHA6Ly9maWxlLnh1ZWNoZW5nLXBsdXMuY29tL2RkZGZcIixcInV0eXBlXCI6XCIxMDEwMDFcIn0iLCJzY29wZSI6WyJhbGwiXSwiZXhwIjoxNjc2ODA2MDM0LCJhdXRob3JpdGllcyI6WyJwMSJdLCJqdGkiOiI4ODNhOTc1MS0xZmY4LTRkNjMtYWUwZi0zNjdkNGZjNDMwNGYiLCJjbGllbnRfaWQiOiJYY1dlYkFwcCJ9.0m9k4LpTtfOPQASujohwim-_8e65wVUkYiWafhqlv5E
+
+
+
+###申请令牌(密码模式,扩展认证请求参数)
+POST {{auth_host}}/auth/oauth/token?client_id=XcWebApp&client_secret=XcWebApp&grant_type=password&username={"username":"stu1","authType":"password"}&password=111111
+
+
+
+###申请令牌(账号密码认证)
+POST {{auth_host}}/auth/oauth/token?client_id=XcWebApp&client_secret=XcWebApp&grant_type=password&username={"username
+    ":"stu1神奇","authType":"password","password":111111}
+
+
+
+###扩展认证请求参数后密码模式
+POST {{auth_host}}/auth/oauth/token?client_id=XcWebApp&client_secret=XcWebApp&grant_type=password&username={"username
+    ":"stu1","authType":"password","password":111111,"checkcode":"0nex","checkcodekey":"checkcode:fd3fef09536248d2b78f7049d99f74d9"}
+
+
+
+###
+POST {{gateway_host}}/auth/oauth/token?username={"username":"stu1","password":"111111",
+    "checkcode":"0nex","checkcodekey":"checkcode:fd3fef09536248d2b78f7049d99f74d9","authType":"password"}&grant_type=password&client_secret=XcWebApp&client_id=XcWebApp
+
+
+###找回密码
+POST {{auth_host}}/auth/findpassword
+Content-Type: application/json
+
+{
+  "cellphone": "1",
+  "email": "1",
+  "checkcodekey": "1",
+  "checkcode": "1",
+  "confirmpwd": "1",
+  "password": "1"
+}
+
+
+
+###找回密码
+GET {{auth_host}}/auth/wxLogin?code=061Lf6000scWzP1WwO300iqCh03Lf60G&state=checkcode:28156467554342d39e7f19ade741d8c0
+

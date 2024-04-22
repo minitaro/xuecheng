@@ -1,0 +1,2 @@
+### 添加选课
+POST {{learning_host}}/learning/choosecourse/2

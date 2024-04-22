@@ -1,0 +1,43 @@
+### 上传小文件
+POST {{media_host}}/media/upload/coursefile
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="filedata"; filename="1.jpg"
+Content-Type: application/octet-stream
+
+< D:/Download/upload/1.jpg
+
+
+### 检查文件
+POST{{media_host}}/media/upload/checkfile
+Content-Type: application/x-www-form-urlencoded;
+
+fileMd5=D2C769570AE39A3A43872EE1EAC86D89
+
+
+### 检查分块文件是否存在
+POST {{media_host}}/media/upload/checkchunk
+Content-Type: application/x-www-form-urlencoded;
+
+fileMd5=D2C769570AE39A3A43872EE1EAC86D89&chunk=0
+
+
+### 上传分块文件
+POST {{media_host}}/media/upload/uploadchunk?fileMd5=D2C769570AE39A3A43872EE1EAC86D89&chunk=2
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="movie"
+Content-Type: application/octet-stream
+
+< D:/Download/bigfiletest/chunks/2
+
+
+### 合并文件
+POST {{media_host}}/media/upload/mergechunks
+Content-Type: application/x-www-form-urlencoded;
+
+fileMd5=D2C769570AE39A3A43872EE1EAC86D89&fileName=3.rmvb&chunkTotal=3
+
+

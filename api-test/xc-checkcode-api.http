@@ -1,0 +1,12 @@
+### 获取验证码
+POST {{checkcode_host}}/checkcode/pic
+
+
+
+### 校验验证码
+POST {{checkcode_host}}/checkcode/verify?key=checkcode:5faba83ba61c451c81eb47d5bd9b5097&code=QCOD
+
+
+
+### 发送验证码
+POST {{checkcode_host}}/checkcode/phone?param1=manchun128@163.com
